@@ -1,3 +1,8 @@
+<?php
+session_start();
+$nombreUsuario=$_SESSION['nombre'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +11,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Eres mayor genial</h1>
+    <h1>Eres mayor, genial: <?php echo $nombreUsuario?></h1>
+    <a href="index.html">Regresar a formulario</a>
     
 </body>
 </html>
