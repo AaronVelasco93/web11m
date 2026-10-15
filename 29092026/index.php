@@ -29,7 +29,7 @@
             <td><?php echo $row['email'];?></td>
             <td><?php echo $row['telefono'];?></td>
             <td>
-                <a href="">Editar</a>
+                <a href="editar.php?id=<?php echo $row['id'];?>">Editar</a>
                 <a href="delete.php?id=<?php echo $row['id'];?>">Eliminar</a>
             </td>
         </tr>

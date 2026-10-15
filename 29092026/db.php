@@ -1,9 +1,15 @@
 <?php
 // datos del servidor de la base de datos, MYSQL
-$host="127.0.0.1:3306";
-$user="root";
-$pass="Aaron123";
+ $host="127.0.0.1:3306";
+ $user="root";
+ $pass="Aaron123";
 $dbName="crud_app";
+
+// $host="sql109.infinityfree.com:3306";
+// $user="if0_43062408";
+// $pass="c4Fc9ujHNUKhk";
+// $dbName="if0_43062408_crud_app";
+
 $conn = new mysqli($host,$user,$pass,$dbName);
 
 
