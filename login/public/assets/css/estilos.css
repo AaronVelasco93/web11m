@@ -1,0 +1,230 @@
+/* 1. Colores generales: cambia estas variables para personalizar el proyecto. */
+/* CSS presenta el HTML; no valida contraseñas ni controla permisos.
+   .clase selecciona class del HTML; #id selecciona un identificador.
+   px es una medida fija; rem depende del tamaño de letra raíz; vh depende del alto de la ventana. */
+:root {
+  /* :root comparte las variables con todo el documento; var() recupera su valor. */
+  --principal: #2563eb;
+  --texto: #243247;
+  --suave: #5f6f83;
+  --borde: #dce4ef;
+  --radio: 12px;
+}
+
+/* Incluye padding y borde dentro del ancho declarado, evitando desbordamientos. */
+* { box-sizing: border-box; }
+
+body {
+  /* Quita el margen del navegador y usa una fuente del equipo, sin descargas. */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: var(--texto);
+  /* El degradado mezcla tres tonos suaves; no añade imágenes ni una columna decorativa. */
+  background: linear-gradient(135deg, #eaf2ff, #f7f9fd 55%, #eef7f5);
+  line-height: 1.5;
+}
+
+/* Las reglas agrupadas reutilizan estilo: todos los enlaces, controles y títulos. */
+a { color: var(--principal); text-underline-offset: 3px; }
+button, input { font: inherit; }
+h1, h2 { line-height: 1.2; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.2rem; }
+
+/* El foco visible permite identificar el control seleccionado al navegar con Tab. */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid #93b4ff;
+  outline-offset: 3px;
+}
+
+/* El enlace para teclado solo aparece al recibir el foco. */
+.saltar { position: fixed; top: -100px; left: 12px; z-index: 10; }
+.saltar:focus { top: 12px; padding: 12px; background: white; }
+
+/* 2. Login y registro: una tarjeta blanca, centrada y con espacio suficiente. */
+.acceso-contenido {
+  /* min-height permite ocupar la ventana y crecer si el formulario necesita más espacio. */
+  min-height: 100vh;
+  /* Flexbox y las dos alineaciones centran horizontal y verticalmente la tarjeta. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+/* Login, registro y listado comparten fondo, borde, redondeado y sombra discreta. */
+.panel-formulario, .tarjeta-listado {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: 0 8px 28px #2432470a;
+}
+
+.panel-formulario {
+  /* width adapta el tamaño al móvil; max-width impide una tarjeta demasiado ancha. */
+  width: 100%;
+  max-width: 460px;
+  padding: 36px;
+  border-top: 4px solid var(--principal);
+}
+
+/* margin controla separación exterior; padding, el espacio interior de los elementos. */
+.titulo-formulario { margin: 0 0 12px; font-size: 1.9rem; }
+.introduccion { margin: 0 0 24px; color: var(--suave); }
+.sobretitulo { font-size: .75rem; font-weight: bold; color: var(--principal); }
+
+/* 3. Campos y botones compartidos: estas reglas sirven a ambos formularios. */
+.campo { margin-bottom: 18px; }
+.campo label { display: block; margin-bottom: 7px; font-weight: bold; font-size: .9rem; }
+
+.campo input {
+  /* El selector con espacio afecta solo a los input contenidos dentro de una clase campo. */
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+  color: var(--texto);
+  background: #fbfcfe;
+}
+
+/* :focus se aplica al escribir o seleccionar el campo; no cambia sus datos. */
+.campo input:focus {
+  border-color: var(--principal);
+  outline: 3px solid #dbeafe;
+}
+
+/* Los textos de ayuda tienen menos tamaño pero conservan contraste con el fondo. */
+.campo small {
+  display: block;
+  margin-top: 7px;
+  color: var(--suave);
+  font-size: .78rem;
+}
+
+.boton {
+  /* Una misma clase sirve tanto a button como a enlaces que parecen botones. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-weight: bold;
+  font-size: .9rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Modificadores: agregan diferencias sin repetir todas las reglas de .boton. */
+/* :hover se activa al colocar el puntero encima; las acciones siguen en PHP. */
+.boton-principal { color: white; background: var(--principal); }
+.boton-principal:hover { background: #1d4ed8; }
+.boton-ancho { width: 100%; justify-content: space-between; }
+.boton-borde { color: var(--texto); background: white; border-color: var(--borde); }
+.boton-borde:hover { background: #f0f5ff; }
+.boton-pequeno { font-size: .8rem; }
+
+/* Separa el enlace para cambiar entre login y registro del botón principal. */
+.cambio-formulario {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--borde);
+  text-align: center;
+  color: var(--suave);
+  font-size: .85rem;
+}
+
+/* 4. Mensajes: el texto y el color indican si hubo éxito, información o error. */
+.aviso { padding: 14px; margin-bottom: 20px; border: 1px solid; border-radius: 7px; font-size: .9rem; }
+/* La clase final la decide el mensaje del servidor: exito, info o error. */
+.aviso-exito { color: #236344; background: #edf8f0; border-color: #c8e6d0; }
+.aviso-info { color: #24538b; background: #eef5ff; border-color: #cbdcf7; }
+.aviso-error { color: #963d3d; background: #fff1f1; border-color: #efcece; }
+.aviso-titulo { margin: 0 0 6px; font-weight: bold; }
+.aviso ul { margin: 0; padding-left: 18px; }
+
+/* 5. Dashboard: únicamente navegación al listado y cierre de sesión. */
+/* Organiza cabecera, contenido y pie en una columna que ocupa al menos la ventana. */
+.pagina-privada { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Los mismos alineamientos se comparten en las filas del dashboard. */
+.barra-superior, .navegacion, .titulo-listado, .pie-privado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.barra-superior {
+  /* Sobrescribe space-between: la cabecera solo contiene el menú, alineado a la derecha. */
+  justify-content: flex-end;
+  /* max y calc mantienen un margen mínimo y alinean el menú con el ancho del contenido. */
+  padding: 18px max(24px, calc((100% - 1120px) / 2));
+  border-bottom: 1px solid var(--borde);
+  background: white;
+}
+
+.navegacion a { font-size: .9rem; }
+.navegacion form { margin: 0; }
+
+.contenido-privado {
+  /* margin auto centra el bloque; flex:1 ocupa el espacio libre y empuja el pie hacia abajo. */
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Ajustes de los títulos, el contador de personas y el contenedor de la tabla. */
+.encabezado-listado { margin-bottom: 28px; }
+.encabezado-listado h1 { margin: 0 0 10px; }
+.encabezado-listado .introduccion { margin: 0; }
+.tarjeta-listado { overflow: hidden; }
+.titulo-listado { padding: 20px 24px; }
+.titulo-listado h2 { margin: 0; }
+.titulo-listado p { margin: 5px 0 0; color: var(--suave); font-size: .85rem; }
+.contador { padding: 6px 12px; border-radius: 20px; background: #eef4ff; color: #2257af; font-size: .8rem; white-space: nowrap; }
+
+/* La tabla se desplaza dentro de su contenedor en pantallas pequeñas. */
+.tabla-contenedor { overflow-x: auto; }
+/* border-collapse evita bordes dobles; th son encabezados y td son celdas de datos. */
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: .9rem; }
+th, td { padding: 16px 24px; border-top: 1px solid var(--borde); }
+th { background: #f4f7fc; color: var(--suave); font-size: .8rem; white-space: nowrap; }
+/* Permite partir textos muy largos, por ejemplo correos, en lugar de ampliar la página. */
+td { overflow-wrap: anywhere; }
+tbody tr:hover { background: #f8faff; }
+caption { caption-side: bottom; padding: 16px 24px; color: var(--suave); font-size: .75rem; text-align: left; }
+.folio, .fecha { color: var(--suave); font-size: .8rem; }
+.fecha { white-space: nowrap; }
+.nombre-usuario { display: flex; align-items: center; gap: 10px; min-width: 160px; }
+/* Un radio de 50% dibuja un círculo; flex-shrink:0 conserva el tamaño de la inicial. */
+.avatar { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: #eef4ff; color: #2257af; }
+.sin-datos { text-align: center; padding: 32px; color: var(--suave); }
+
+.pie-privado {
+  /* Solo es texto informativo: no introduce nuevas opciones de gestión. */
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  color: var(--suave);
+  font-size: .75rem;
+}
+
+/* 6. Una sola regla para adaptar las tarjetas, la navegación y la tabla al móvil. */
+@media (max-width: 640px) {
+  /* Estas reglas sustituyen únicamente las propiedades indicadas cuando el ancho baja a 640px. */
+  /* flex-wrap permite que navegación y pie salten de línea si no caben en una fila. */
+  .panel-formulario { padding: 28px 24px; }
+  .barra-superior { flex-wrap: wrap; padding: 18px 20px; }
+  .navegacion { width: 100%; }
+  .contenido-privado { padding: 28px 16px 40px; }
+  .titulo-listado { padding: 18px; }
+  th, td { padding: 14px 18px; }
+  .pie-privado { flex-wrap: wrap; padding: 18px 16px; gap: 6px; }
+}
