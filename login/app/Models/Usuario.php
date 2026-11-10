@@ -17,7 +17,29 @@ final class Usuario{
     }
     // funcion para generar un nuevo usuario en la base de datos
     public function registrar(string $nombre, string $correo, string $hash):int{
-        
+        $pdo= $this->conexion->obtener();
+        $sql='INSERT INTO usuarios(nombre,correo,password_hash) VALUES(:nombre,:correo,:hash)';
+        $consulta = $pdo->prepare($sql);
+        $consulta->execute([
+            'nombre' =>$nombre,
+            'correo' =>$correo,
+            'password_hash' =>$hash
+        ]);
+        return (int) $pdo->lastInsertId();
     }
+    public function listar():array{
+        $sql='SELECT id, nombre, correo, creado_en FROM usuarios ORDER BY id DESC';
+        return $this->conexion->obtener()->query($sql)->fetchAll();
+    }
+    public function actualizarHash(int $id, string $hash ):void{
+        $sql='UPDATE usuarios SET password_hash= :hash WHERE id :id';
+        $consulta= $this->conexion->obtener()->prepare($sql);
+        $consulta->execute([
+            'hash'=>$hash,
+            'id'=>$id
+        ]);
+    }
+
+
 
 }
