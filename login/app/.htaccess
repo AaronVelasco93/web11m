@@ -1,0 +1,2 @@
+# Controladores, modelos y vistas solo se incluyen desde PHP; no se visitan por HTTP.
+Require all denied
