@@ -1,36 +1,46 @@
 <?php
 declare(strict_types=1);
-//espcio de trabajo para la conexion a la base de datos
-namespace App\Core;
-/*
-PDO es la clase incluida en PHP para la conexión a bases
-de datos, es una interfaz que permite acceder a diferentes 
-sistemas de gestión de bases de datos (DBMS) de manera 
-uniforme. Proporciona una forma segura y eficiente de 
-interactuar con bases de datos, permitiendo ejecutar  
-*/
 
+namespace App\Core;
+
+// PDO es la clase incluida en PHP para conectarse a distintos motores de base de datos.
 use PDO;
-final class Conexion{
-    private ?PDO $pdo = null; 
+
+/** Encapsula PDO. La conexión se abre solo cuando una operación necesita datos. */
+final class Conexion
+{
+    // ?PDO permite guardar null antes de conectarse, y un objeto PDO después.
+    private ?PDO $pdo = null;
+
+    /**
+     * Constructor: recibe host, puerto, base, usuario y contraseña ya leídos de .env.
+     * La propiedad promovida private array conserva el arreglo sin asignaciones adicionales.
+     * No retorna valores ni abre una conexión en este momento.
+     */
     public function __construct(private array $configuracion)
     {
     }
-    public function obtener():PDO
+
+    /** Devuelve una conexión PDO reutilizable o lanza PDOException si falla el servidor. */
+    public function obtener(): PDO
     {
-        if($this->pdo ===null){
+        // Se crea una única conexión por objeto Conexion durante esta solicitud HTTP.
+        if ($this->pdo === null) {
             $c = $this->configuracion;
-            //dsn = data source name
-            //motor, servidor, base de datos, utg8mb4 adminite unicode y emojis
-            $dsn= sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $c['host'], $c['port'], $c['dbname']);
-            $this->pdo= new PDO($dsn, $c['username'], $c['password'],[
+            // DSN identifica el motor, servidor y base. utf8mb4 admite Unicode, incluidos emojis.
+            $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $c['host'], $c['port'], $c['name']);
+            $this->pdo = new PDO($dsn, $c['username'], $c['password'], [
+                // Un error SQL lanza una excepción que puede capturar public/index.php.
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                // fetch() entrega arreglos con claves como nombre, correo e id.
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                // MySQL prepara las consultas en el servidor; los datos no se concatenan al SQL.
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]);
-            // las fechas generadas en MYSQL se guardan en UTC, para que se guarden en la zona horaria de la aplicación, se debe establecer la zona horaria en la conexión
+            // Las fechas generadas por MySQL se interpretan en UTC para toda esta conexión.
             $this->pdo->exec("SET time_zone = '+00:00'");
         }
+        // Si ya existía una conexión, se devuelve sin volver a autenticar con MySQL.
         return $this->pdo;
     }
 }

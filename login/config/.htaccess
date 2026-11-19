@@ -1,0 +1,2 @@
+# Impide acceder por el navegador a los archivos internos de configuración.
+Require all denied

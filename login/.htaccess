@@ -1,5 +1,9 @@
+# Evita listar carpetas y descargar archivos de configuración desde Apache.
+# .htaccess solo lo interpreta Apache con AllowOverride habilitado; php -S no lo aplica.
 Options -Indexes
+# .git contiene historial y configuración del repositorio, no contenido público.
 RedirectMatch 404 "(?i)/\.git(?:/|$)"
-<FilesMatch"^(\.env(?:\..*)|\.git.*|.*\.md)$">
+# FilesMatch aplica estas reglas a nombres de archivo: .env, sus plantillas y documentos internos.
+<FilesMatch "^(\.env(?:\..*)?|\.git.*|.*\.md)$">
     Require all denied
 </FilesMatch>

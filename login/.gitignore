@@ -1,0 +1,4 @@
+# El archivo local puede contener contraseñas: no se agrega al repositorio.
+.env
+# Reserva para dependencias de Composer, si se incorpora en el futuro.
+vendor/
